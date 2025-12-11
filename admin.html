@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin - Urban Pulse</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div class="container" style="padding:24px">
+    <h2>Admin - Urban Pulse</h2>
+    <div id="loginBox">
+      <p>Inicia sesión como administrador para gestionar productos y precios.</p>
+      <form id="adminLogin">
+        <input id="adminUser" placeholder="Usuario" required />
+        <input id="adminPass" type="password" placeholder="Contraseña" required />
+        <button class="btn" type="submit">Entrar</button>
+      </form>
+    </div>
+
+    <div id="adminPanel" style="display:none">
+      <button id="logoutBtn" class="btn" style="margin-bottom:12px">Cerrar sesión</button>
+      <h3>Productos</h3>
+      <div id="adminProducts"></div>
+
+      <h3 style="margin-top:18px">Agregar / Editar producto</h3>
+      <form id="productForm" style="display:grid;gap:8px;max-width:600px">
+        <input id="pId" type="hidden" />
+        <input id="pName" placeholder="Nombre" required />
+        <input id="pPrice" placeholder="Precio (ej. 45)" required />
+        <input id="pCategory" placeholder="Categoría (playeras, sueteres...)" required />
+        <input id="pImg" placeholder="URL imagen" />
+        <input id="pSizes" placeholder="Tallas (S,M,L) separadas por comas" />
+        <input id="pColors" placeholder="Colores separados por comas" />
+        <button class="btn" type="submit">Guardar producto</button>
+      </form>
+    </div>
+  </div>
+  <script src="js/admin.js"></script>
+</body>
+</html>

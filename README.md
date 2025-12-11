@@ -18,3 +18,5 @@ python -m http.server 8000
 Notas:
 - Las imágenes son enlaces a Unsplash como placeholders.
 - Puedo añadir carrito persistente, pasarela de pago y un panel de administración si quieres.
+ - Admin demo: usuario `admin` / contraseña `admin123`. Accede a `admin.html` para gestionar productos (CRUD) — en esta demo los datos se guardan en `localStorage`.
+ - Carrito y checkout: el carrito se guarda en `localStorage`; checkout guarda pedidos en `localStorage`.

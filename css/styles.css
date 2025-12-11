@@ -30,5 +30,10 @@
 .site-footer{padding:18px 0;background:#111;color:#fff;text-align:center}
 .cart-toast{position:fixed;right:20px;bottom:20px;background:#111;color:#fff;padding:10px 14px;border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,0.2)}
 .hidden{display:none}
+
+/* Modal producto */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;padding:20px;z-index:60}
+.modal-content{background:#fff;border-radius:8px;padding:18px;max-width:900px;width:100%;box-shadow:0 10px 40px rgba(0,0,0,0.3)}
+
 @media(max-width:900px){.hero-inner{grid-template-columns:1fr} .grid{grid-template-columns:repeat(2,1fr)}.hero img{height:220px}}
 @media(max-width:560px){.grid{grid-template-columns:1fr}.header-inner{flex-direction:column;gap:12px}.nav a{display:inline-block;margin-right:8px}}

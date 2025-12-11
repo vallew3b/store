@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bandolera Gucci Gris - Urban Pulse</title>
+  <link rel="stylesheet" href="../css/styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <h1 class="logo">Urban Pulse</h1>
+      <nav class="nav">
+        <a href="../index.html">Colección</a>
+        <a href="../bandoleras.html">Bandoleras</a>
+        <button id="cartBtn" class="cart-btn">Carrito (0)</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container" style="padding: 32px 0;">
+    <a href="../bandoleras.html" style="color:#111;text-decoration:underline;margin-bottom:16px;display:block">← Volver a bandoleras</a>
+    
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start">
+      <div>
+        <img src="../FOTOS/BANDOLERAS/BANDOLERA GUCCI GRIS.jpg" alt="Bandolera Gucci Gris" style="width:100%;border-radius:8px" />
+      </div>
+      <div>
+        <h1 style="margin:0 0 8px 0;font-size:28px">BANDOLERA GUCCI GRIS</h1>
+        <div style="font-size:24px;color:#ff6b6b;font-weight:800;margin-bottom:16px">$180</div>
+        
+        <div style="margin-bottom:16px">
+          <p><strong>Descripción:</strong> Bandolera de lujo Gucci en gris, un accesorio premium de máxima calidad. Ideal para quienes buscan estilo sofisticado.</p>
+          <p><strong>Marca:</strong> Gucci</p>
+          <p><strong>Color:</strong> Gris</p>
+          <p><strong>Disponibilidad:</strong> En stock</p>
+        </div>
+
+        <div style="display:flex;gap:8px;align-items:center;margin-bottom:16px">
+          <input id="qty" type="number" value="1" min="1" style="width:80px;padding:8px;border:1px solid #ddd;border-radius:6px" />
+          <button id="addBtn" class="btn" style="flex:1">Agregar al carrito</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div id="cartToast" class="cart-toast hidden">Producto agregado</div>
+
+  <script>
+    const product = {
+      name: 'BANDOLERA GUCCI GRIS',
+      price: 180,
+      color: 'Gris',
+      productId: 'gucci-gris'
+    };
+
+    document.getElementById('addBtn').addEventListener('click', () => {
+      const qty = Number(document.getElementById('qty').value) || 1;
+      const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+      
+      for (let i = 0; i < qty; i++) {
+        const exists = cart.find(item => item.name === product.name && item.color === product.color);
+        if (exists) {
+          exists.qty += 1;
+        } else {
+          cart.push({
+            id: Date.now() + Math.random(),
+            productId: product.productId,
+            name: product.name,
+            price: product.price,
+            size: null,
+            color: product.color,
+            qty: 1
+          });
+        }
+      }
+      
+      localStorage.setItem('cart', JSON.stringify(cart));
+      
+      const toast = document.getElementById('cartToast');
+      toast.classList.remove('hidden');
+      setTimeout(() => toast.classList.add('hidden'), 1200);
+      
+      const cartBtn = document.getElementById('cartBtn');
+      const count = cart.reduce((s, i) => s + i.qty, 0);
+      cartBtn.textContent = `Carrito (${count})`;
+    });
+
+    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    const count = cart.reduce((s, i) => s + i.qty, 0);
+    document.getElementById('cartBtn').textContent = `Carrito (${count})`;
+  </script>
+</body>
+</html>
