@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Urban Pulse - Ropa Urbana</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body data-filter="all">
+  <header class="site-header">
+    <div class="container header-inner">
+      <h1 class="logo">Urban Pulse</h1>
+      <nav class="nav">
+        <a href="#coleccion">Colección</a>
+        <a href="#novedades">Novedades</a>
+        <a href="#contacto">Contacto</a>
+        <button id="cartBtn" class="cart-btn">Carrito (0)</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Barra de categorías -->
+  <div class="category-bar container" id="categoryBar">
+    <a class="category-btn" data-cat="all" href="index.html">Todos</a>
+    <a class="category-btn" data-cat="playeras" href="playeras.html">Playeras</a>
+    <a class="category-btn" data-cat="sueteres" href="sueteres.html">Suéteres</a>
+    <a class="category-btn" data-cat="pants" href="pants.html">Pants</a>
+    <a class="category-btn" data-cat="pantalones" href="pantalones.html">Pantalones</a>
+    <a class="category-btn" data-cat="gorras" href="gorras.html">Gorras</a>
+    <a class="category-btn" data-cat="bandoleras" href="bandoleras.html">Bandoleras</a>
+  </div>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-inner">
+        <div>
+          <h2>Ropa urbana con actitud</h2>
+          <p>Streetwear pensado para moverte con estilo por la ciudad. Ediciones limitadas, diseños originales.</p>
+          <a href="#coleccion" class="btn">Ver colección</a>
+        </div>
+        <img src="https://images.unsplash.com/photo-1520975682841-5d9fbf2b8f3b?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&s=3b0d54a1c3f2b2b8f58f8b6a7d9b9c2a" alt="streetwear"/>
+      </div>
+    </section>
+
+    <section id="coleccion" class="products container">
+      <h3>Colección</h3>
+      <div class="grid" id="productGrid">
+        <!-- Productos insertados por JS -->
+      </div>
+    </section>
+
+    <section id="novedades" class="container newsletter">
+      <h3>Novedades</h3>
+      <p>Suscríbete para recibir lanzamientos y descuentos exclusivos.</p>
+      <form id="newsForm" class="news-form">
+        <input type="email" placeholder="tu@email.com" required />
+        <button class="btn" type="submit">Suscribirme</button>
+      </form>
+    </section>
+
+    <section id="contacto" class="container contacto">
+      <h3>Contacto</h3>
+      <form class="contact-form">
+        <input type="text" placeholder="Nombre" required />
+        <input type="email" placeholder="Email" required />
+        <textarea placeholder="Mensaje" rows="4"></textarea>
+        <button class="btn" type="submit">Enviar</button>
+      </form>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© 2025 Urban Pulse — Ropa urbana</p>
+      <small>Hecho con ♥</small>
+    </div>
+  </footer>
+
+  <div id="cartToast" class="cart-toast hidden">Producto agregado</div>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
