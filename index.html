@@ -214,43 +214,14 @@
             color: #888;
         }
 
-        .producto-precio-stock {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
+        .producto-precio {
+            margin-top: 1rem;
         }
 
-        .producto-precio {
+        .producto-precio .precio {
             font-size: 1.5rem;
             font-weight: bold;
             color: #667eea;
-        }
-
-        .producto-stock {
-            font-size: 0.9rem;
-            color: #666;
-        }
-
-        .btn-agregar-carrito {
-            width: 100%;
-            padding: 0.75rem;
-            background: #667eea;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        .btn-agregar-carrito:hover:not(:disabled) {
-            background: #5568d3;
-        }
-
-        .btn-agregar-carrito:disabled {
-            background: #ccc;
-            cursor: not-allowed;
         }
 
         .sin-productos,
@@ -289,6 +260,135 @@
             }
         }
 
+        /* Modal de detalles del producto */
+        .modal-producto {
+            display: none;
+            position: fixed;
+            z-index: 10000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            overflow: auto;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-contenido {
+            background-color: white;
+            margin: 2% auto;
+            padding: 0;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 900px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: slideDown 0.3s;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-cerrar {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            font-size: 2rem;
+            font-weight: bold;
+            color: #333;
+            cursor: pointer;
+            z-index: 10001;
+            background: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            transition: transform 0.3s;
+        }
+
+        .modal-cerrar:hover {
+            transform: rotate(90deg);
+            background: #f0f0f0;
+        }
+
+        .modal-body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-imagen-container {
+            width: 100%;
+            background: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .modal-imagen {
+            max-width: 100%;
+            max-height: 500px;
+            object-fit: contain;
+            border-radius: 10px;
+            cursor: zoom-in;
+        }
+
+        .modal-info {
+            padding: 2rem;
+        }
+
+        .modal-info h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .modal-descripcion {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .modal-detalles {
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-detalles p {
+            margin: 0.5rem 0;
+            color: #555;
+        }
+
+        .modal-detalles strong {
+            color: #333;
+            margin-right: 0.5rem;
+        }
+
+        .modal-precio {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #667eea;
+            padding-top: 1rem;
+            border-top: 2px solid #eee;
+        }
+
         @media (max-width: 768px) {
             .hero h1 {
                 font-size: 2rem;
@@ -304,6 +404,27 @@
             }
 
             .titulo-seccion {
+                font-size: 1.5rem;
+            }
+
+            .modal-contenido {
+                width: 95%;
+                margin: 5% auto;
+            }
+
+            .modal-body {
+                flex-direction: column;
+            }
+
+            .modal-imagen-container {
+                padding: 1rem;
+            }
+
+            .modal-info {
+                padding: 1.5rem;
+            }
+
+            .modal-info h2 {
                 font-size: 1.5rem;
             }
         }
@@ -340,14 +461,30 @@
                    placeholder="Buscar productos...">
             <div class="categorias">
                 <button class="categoria-btn active" data-categoria="TODOS">Todos</button>
+                <button class="categoria-btn" data-categoria="SUDADERAS">Sudaderas</button>
                 <button class="categoria-btn" data-categoria="PLAYERAS">Playeras</button>
-                <button class="categoria-btn" data-categoria="SUÉTERES">Suéteres</button>
-                <button class="categoria-btn" data-categoria="PANTS">Pants</button>
+                <button class="categoria-btn" data-categoria="CAMISETAS">Camisetas</button>
+                <button class="categoria-btn" data-categoria="CALCETAS">Calcetas</button>
+                <button class="categoria-btn" data-categoria="PANS">Pans</button>
                 <button class="categoria-btn" data-categoria="PANTALONES">Pantalones</button>
-                <button class="categoria-btn" data-categoria="GORRAS">Gorras</button>
-                <button class="categoria-btn" data-categoria="BANDOLERAS">Bandoleras</button>
-                <button class="categoria-btn" data-categoria="MOCHILA">Mochila</button>
+                <button class="categoria-btn" data-categoria="PLAYERA MANGA LARGA">Playera Manga Larga</button>
+                <button class="categoria-btn" data-categoria="POLO">Polo</button>
+                <button class="categoria-btn" data-categoria="CINTURÓN">Cinturón</button>
+                <button class="categoria-btn" data-categoria="RELOJ">Reloj</button>
+                <button class="categoria-btn" data-categoria="CORBATA">Corbata</button>
+                <button class="categoria-btn" data-categoria="ZAPATOS">Zapatos</button>
+                <button class="categoria-btn" data-categoria="SNKRS">Sneakers</button>
                 <button class="categoria-btn" data-categoria="ACCESORIOS">Accesorios</button>
+                <button class="categoria-btn" data-categoria="GORRAS">Gorras</button>
+                <button class="categoria-btn" data-categoria="LLAVEROS">Llaveros</button>
+                <button class="categoria-btn" data-categoria="LENTES">Lentes</button>
+                <button class="categoria-btn" data-categoria="GUANTES">Guantes</button>
+                <button class="categoria-btn" data-categoria="MOCHILA">Mochila</button>
+                <button class="categoria-btn" data-categoria="MALETA">Maleta</button>
+                <button class="categoria-btn" data-categoria="BANDOLERAS">Bandoleras</button>
+                <button class="categoria-btn" data-categoria="PERFUMES">Perfumes</button>
+                <button class="categoria-btn" data-categoria="PELUCHES">Peluches</button>
+                <button class="categoria-btn" data-categoria="OTROS">Otros</button>
             </div>
         </div>
     </section>

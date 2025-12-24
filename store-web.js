@@ -102,19 +102,28 @@ function organizarPorCategorias(productosLista) {
 
 // Mapeo de nombres de categorías para mostrar
 const nombresCategorias = {
+    'TODAS': 'Todas',
+    'SUDADERAS': 'Sudaderas',
     'PLAYERAS': 'Playeras',
-    'SUÉTERES': 'Suéteres',
-    'SUETERES': 'Suéteres',
-    'PANTS': 'Pants',
+    'CAMISETAS': 'Camisetas',
+    'CALCETAS': 'Calcetas',
+    'PANS': 'Pans',
     'PANTALONES': 'Pantalones',
-    'GORRAS': 'Gorras',
-    'BANDOLERAS': 'Bandoleras',
-    'MOCHILA': 'Mochila',
+    'PLAYERA MANGA LARGA': 'Playera Manga Larga',
+    'POLO': 'Polo',
+    'CINTURÓN': 'Cinturón',
+    'RELOJ': 'Reloj',
+    'CORBATA': 'Corbata',
+    'ZAPATOS': 'Zapatos',
+    'SNKRS': 'Sneakers',
     'ACCESORIOS': 'Accesorios',
+    'GORRAS': 'Gorras',
     'LLAVEROS': 'Llaveros',
     'LENTES': 'Lentes',
     'GUANTES': 'Guantes',
+    'MOCHILA': 'Mochila',
     'MALETA': 'Maleta',
+    'BANDOLERAS': 'Bandoleras',
     'PERFUMES': 'Perfumes',
     'PELUCHES': 'Peluches',
     'OTROS': 'Otros'
@@ -137,18 +146,26 @@ function mostrarProductos(productosFiltrados) {
     const productosPorCategoria = organizarPorCategorias(productosFiltrados);
     
     // Orden de las categorías (las que tienen productos primero)
-    const ordenCategorias = ['PLAYERAS', 'SUÉTERES', 'SUETERES', 'PANTS', 'PANTALONES', 'GORRAS', 
-                            'BANDOLERAS', 'MOCHILA', 'ACCESORIOS', 'LLAVEROS', 'LENTES', 
-                            'GUANTES', 'MALETA', 'PERFUMES', 'PELUCHES', 'OTROS'];
+    // NO incluir 'INVENTARIO TOTAL' ya que no debe mostrarse en la web
+    const ordenCategorias = ['SUDADERAS', 'PLAYERAS', 'CAMISETAS', 'CALCETAS', 'PANS', 
+                            'PANTALONES', 'PLAYERA MANGA LARGA', 'POLO', 'CINTURÓN', 
+                            'RELOJ', 'CORBATA', 'ZAPATOS', 'SNKRS', 'ACCESORIOS', 
+                            'GORRAS', 'LLAVEROS', 'LENTES', 'GUANTES', 'MOCHILA', 
+                            'MALETA', 'BANDOLERAS', 'PERFUMES', 'PELUCHES', 'OTROS'];
     
     let html = '';
     
     // Mostrar categorías en orden
     ordenCategorias.forEach(categoria => {
+        // Filtrar categorías que no deben mostrarse
+        if (categoria === 'INVENTARIO TOTAL' || categoria === 'TODAS') {
+            return;
+        }
+        
         if (productosPorCategoria[categoria] && productosPorCategoria[categoria].length > 0) {
             const nombreCategoria = nombresCategorias[categoria] || categoria;
             html += `
-                <section class="seccion-productos" id="seccion-${categoria.toLowerCase()}">
+                <section class="seccion-productos" id="seccion-${categoria.toLowerCase().replace(/\s+/g, '-')}">
                     <h2 class="titulo-seccion">${nombreCategoria}</h2>
                     <div class="grid-productos">
                         ${productosPorCategoria[categoria].map(producto => crearCardProducto(producto)).join('')}
@@ -160,17 +177,20 @@ function mostrarProductos(productosFiltrados) {
     
     // Mostrar categorías que no están en el orden (por si hay nuevas)
     Object.keys(productosPorCategoria).forEach(categoria => {
-        if (!ordenCategorias.includes(categoria)) {
-            const nombreCategoria = nombresCategorias[categoria] || categoria;
-            html += `
-                <section class="seccion-productos" id="seccion-${categoria.toLowerCase()}">
-                    <h2 class="titulo-seccion">${nombreCategoria}</h2>
-                    <div class="grid-productos">
-                        ${productosPorCategoria[categoria].map(producto => crearCardProducto(producto)).join('')}
-                    </div>
-                </section>
-            `;
+        // Filtrar categorías que no deben mostrarse
+        if (categoria === 'INVENTARIO TOTAL' || categoria === 'TODAS' || ordenCategorias.includes(categoria)) {
+            return;
         }
+        
+        const nombreCategoria = nombresCategorias[categoria] || categoria;
+        html += `
+            <section class="seccion-productos" id="seccion-${categoria.toLowerCase().replace(/\s+/g, '-')}">
+                <h2 class="titulo-seccion">${nombreCategoria}</h2>
+                <div class="grid-productos">
+                    ${productosPorCategoria[categoria].map(producto => crearCardProducto(producto)).join('')}
+                </div>
+            </section>
+        `;
     });
     
     productosContainer.innerHTML = html;
@@ -188,7 +208,7 @@ function crearCardProducto(producto) {
     const categoria = producto.categoria || 'OTROS';
     
     return `
-        <div class="producto-card" data-categoria="${categoria}">
+        <div class="producto-card" data-categoria="${categoria}" onclick="mostrarDetallesProducto(${producto.id})" style="cursor: pointer;">
             <img src="${imagenUrl}" alt="${producto.nombre}" class="producto-imagen" 
                  onerror="this.src='https://via.placeholder.com/300x300?text=Sin+Imagen'">
             <div class="producto-info">
@@ -198,14 +218,9 @@ function crearCardProducto(producto) {
                     ${producto.talla ? `<span class="producto-talla">Talla: ${producto.talla}</span>` : ''}
                     ${producto.color ? `<span class="producto-color">Color: ${producto.color}</span>` : ''}
                 </div>
-                <div class="producto-precio-stock">
-                    <span class="producto-precio">$${precio}</span>
-                    <span class="producto-stock">Stock: ${producto.stock}</span>
+                <div class="producto-precio">
+                    <span class="precio">$${precio}</span>
                 </div>
-                <button class="btn-agregar-carrito" onclick="agregarAlCarrito(${producto.id})" 
-                        ${producto.stock <= 0 ? 'disabled' : ''}>
-                    ${producto.stock > 0 ? 'Agregar al Carrito' : 'Sin Stock'}
-                </button>
             </div>
         </div>
     `;
@@ -352,6 +367,106 @@ function buscarProductos(termino) {
     );
     
     mostrarProductos(productosFiltrados);
+}
+
+// Mostrar detalles del producto en modal
+function mostrarDetallesProducto(productoId) {
+    const producto = productos.find(p => p.id === productoId);
+    if (!producto) return;
+
+    const imagenUrl = producto.imagen 
+        ? (producto.imagen.startsWith('http') 
+            ? producto.imagen 
+            : `${SUPABASE_URL}/storage/v1/object/public/imagenes/${producto.imagen}`)
+        : 'https://via.placeholder.com/600x600?text=Sin+Imagen';
+    
+    const precio = parseFloat(producto.precio_venta || producto.precio || 0).toFixed(2);
+    
+    // Crear modal si no existe
+    let modal = document.getElementById('modal-producto');
+    if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'modal-producto';
+        modal.className = 'modal-producto';
+        modal.innerHTML = `
+            <div class="modal-contenido">
+                <span class="modal-cerrar">&times;</span>
+                <div class="modal-body">
+                    <div class="modal-imagen-container">
+                        <img id="modal-imagen" src="" alt="" class="modal-imagen">
+                    </div>
+                    <div class="modal-info">
+                        <h2 id="modal-nombre"></h2>
+                        <p id="modal-descripcion" class="modal-descripcion"></p>
+                        <div id="modal-detalles" class="modal-detalles"></div>
+                        <div class="modal-precio">
+                            <span id="modal-precio-texto"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+        
+        // Cerrar modal al hacer clic en X o fuera del contenido
+        modal.querySelector('.modal-cerrar').addEventListener('click', cerrarModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                cerrarModal();
+            }
+        });
+        
+        // Cerrar con ESC
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.style.display === 'block') {
+                cerrarModal();
+            }
+        });
+    }
+    
+    // Llenar información del producto
+    document.getElementById('modal-imagen').src = imagenUrl;
+    document.getElementById('modal-imagen').alt = producto.nombre;
+    document.getElementById('modal-nombre').textContent = producto.nombre;
+    
+    const descripcionEl = document.getElementById('modal-descripcion');
+    if (producto.descripcion) {
+        descripcionEl.textContent = producto.descripcion;
+        descripcionEl.style.display = 'block';
+    } else {
+        descripcionEl.style.display = 'none';
+    }
+    
+    const detallesEl = document.getElementById('modal-detalles');
+    let detallesHTML = '';
+    if (producto.codigo) {
+        detallesHTML += `<p><strong>Código:</strong> ${producto.codigo}</p>`;
+    }
+    if (producto.talla) {
+        detallesHTML += `<p><strong>Talla:</strong> ${producto.talla}</p>`;
+    }
+    if (producto.color) {
+        detallesHTML += `<p><strong>Color:</strong> ${producto.color}</p>`;
+    }
+    if (producto.categoria) {
+        detallesHTML += `<p><strong>Categoría:</strong> ${nombresCategorias[producto.categoria.toUpperCase()] || producto.categoria}</p>`;
+    }
+    detallesEl.innerHTML = detallesHTML || '<p>Sin detalles adicionales</p>';
+    
+    document.getElementById('modal-precio-texto').textContent = `$${precio}`;
+    
+    // Mostrar modal
+    modal.style.display = 'block';
+    document.body.style.overflow = 'hidden';
+}
+
+// Cerrar modal
+function cerrarModal() {
+    const modal = document.getElementById('modal-producto');
+    if (modal) {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
 }
 
 // Cargar productos cuando la página esté lista y Supabase esté inicializado
