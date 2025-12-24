@@ -1,84 +1,372 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Urban Pulse - Ropa Urbana</title>
-  <link rel="stylesheet" href="css/styles.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IMPERIAL DESIGN - Tienda Online</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        header {
+            background: #000;
+            color: white;
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.7;
+        }
+
+        .carrito-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn-hero {
+            background: white;
+            color: #667eea;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .btn-hero:hover {
+            transform: translateY(-2px);
+        }
+
+        .filtros {
+            padding: 2rem;
+            background: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .filtros-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .buscar-input {
+            flex: 1;
+            min-width: 200px;
+            padding: 0.75rem;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .categorias {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .categoria-btn {
+            padding: 0.5rem 1rem;
+            border: 2px solid #ddd;
+            background: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .categoria-btn:hover,
+        .categoria-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .productos-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        #productos-container {
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+        }
+
+        .seccion-productos {
+            margin-bottom: 3rem;
+        }
+
+        .titulo-seccion {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: #333;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid #667eea;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .grid-productos {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .producto-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .producto-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+
+        .producto-imagen {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+
+        .producto-info {
+            padding: 1.5rem;
+        }
+
+        .producto-nombre {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .producto-descripcion {
+            color: #666;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .producto-detalles {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            font-size: 0.85rem;
+            color: #888;
+        }
+
+        .producto-precio-stock {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .producto-precio {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .producto-stock {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .btn-agregar-carrito {
+            width: 100%;
+            padding: 0.75rem;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn-agregar-carrito:hover:not(:disabled) {
+            background: #5568d3;
+        }
+
+        .btn-agregar-carrito:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .sin-productos,
+        .error-mensaje {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+        }
+
+        .error-mensaje button {
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        footer {
+            background: #000;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .grid-productos {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 1rem;
+            }
+
+            .titulo-seccion {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
 </head>
-<body data-filter="all">
-  <header class="site-header">
-    <div class="container header-inner">
-      <h1 class="logo">IMPERIAL DESIGN</h1>
-      <nav class="nav">
-        <a href="#coleccion">Colección</a>
-        <a href="#novedades">Novedades</a>
-        <a href="#contacto">Contacto</a>
-        <button id="cartBtn" class="cart-btn">Carrito (0)</button>
-      </nav>
-    </div>
-  </header>
+<body>
+    <header>
+        <nav>
+            <div class="logo">IMPERIAL DESIGN</div>
+            <ul class="nav-links">
+                <li><a href="#coleccion">Colección</a></li>
+                <li><a href="#novedades">Novedades</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+                <li class="carrito-header">
+                    <a href="#carrito">Carrito <span id="carrito-count">(0)</span></a>
+                </li>
+            </ul>
+        </nav>
+    </header>
 
-  <!-- Barra de categorías -->
-  <div class="category-bar container" id="categoryBar">
-    <a class="category-btn" data-cat="all" href="index.html">Todos</a>
-    <a class="category-btn" data-cat="playeras" href="playeras.html">Playeras</a>
-    <a class="category-btn" data-cat="sueteres" href="sueteres.html">Suéteres</a>
-    <a class="category-btn" data-cat="pants" href="pants.html">Pants</a>
-    <a class="category-btn" data-cat="pantalones" href="pantalones.html">Pantalones</a>
-    <a class="category-btn" data-cat="gorras" href="gorras.html">Gorras</a>
-    <a class="category-btn" data-cat="bandoleras" href="bandoleras.html">Bandoleras</a>
-  </div>
-
-  <main>
     <section class="hero">
-      <div class="container hero-inner">
-        <div>
-          <h2>IMPERIAL DESIGN </h2>
-          <p>Streetwear pensado para moverte con estilo por la ciudad. Ediciones limitadas, diseños originales.</p>
-          <a href="#coleccion" class="btn">Ver colección</a>
+        <h1>IMPERIAL DESIGN</h1>
+        <p>Streetwear pensado para moverte con estilo por la ciudad. Ediciones limitadas, diseños originales.</p>
+        <button class="btn-hero" onclick="document.getElementById('coleccion').scrollIntoView({behavior: 'smooth'})">
+            Ver colección
+        </button>
+    </section>
+
+    <section id="coleccion" class="filtros">
+        <div class="filtros-container">
+            <input type="text" 
+                   id="buscar-producto" 
+                   class="buscar-input" 
+                   placeholder="Buscar productos...">
+            <div class="categorias">
+                <button class="categoria-btn active" data-categoria="TODOS">Todos</button>
+                <button class="categoria-btn" data-categoria="PLAYERAS">Playeras</button>
+                <button class="categoria-btn" data-categoria="SUÉTERES">Suéteres</button>
+                <button class="categoria-btn" data-categoria="PANTS">Pants</button>
+                <button class="categoria-btn" data-categoria="PANTALONES">Pantalones</button>
+                <button class="categoria-btn" data-categoria="GORRAS">Gorras</button>
+                <button class="categoria-btn" data-categoria="BANDOLERAS">Bandoleras</button>
+                <button class="categoria-btn" data-categoria="MOCHILA">Mochila</button>
+                <button class="categoria-btn" data-categoria="ACCESORIOS">Accesorios</button>
+            </div>
         </div>
-        <img src="https://images.unsplash.com/photo-1520975682841-5d9fbf2b8f3b?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&s=3b0d54a1c3f2b2b8f58f8b6a7d9b9c2a" alt="streetwear"/>
-      </div>
     </section>
 
-    <section id="coleccion" class="products container">
-      <h3>Colección</h3>
-      <div class="grid" id="productGrid">
-        <!-- Productos insertados por JS -->
-      </div>
+    <section class="productos-container">
+        <div id="productos-container">
+            <p class="sin-productos">Cargando productos...</p>
+        </div>
     </section>
 
-    <section id="novedades" class="container newsletter">
-      <h3>Novedades</h3>
-      <p>Suscríbete para recibir lanzamientos y descuentos exclusivos.</p>
-      <form id="newsForm" class="news-form">
-        <input type="email" placeholder="tu@email.com" required />
-        <button class="btn" type="submit">Suscribirme</button>
-      </form>
-    </section>
+    <footer>
+        <p>© 2025 IMPERIAL DESIGN — Ropa urbana</p>
+        <p>Hecho con ♥</p>
+    </footer>
 
-    <section id="contacto" class="container contacto">
-      <h3>Contacto</h3>
-      <form class="contact-form">
-        <input type="text" placeholder="Nombre" required />
-        <input type="email" placeholder="Email" required />
-        <textarea placeholder="Mensaje" rows="4"></textarea>
-        <button class="btn" type="submit">Enviar</button>
-      </form>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container">
-      <p>© 2025 Urban Pulse — Ropa urbana</p>
-      <small>Hecho con ♥</small>
-    </div>
-  </footer>
-
-  <div id="cartToast" class="cart-toast hidden">Producto agregado</div>
-
-  <script src="js/script.js"></script>
+    <!-- Cargar Supabase desde CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Cargar nuestro script de integración -->
+    <script src="store-web.js"></script>
 </body>
 </html>
+
