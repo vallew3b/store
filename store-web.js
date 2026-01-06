@@ -504,7 +504,17 @@ if (document.readyState === 'loading') {
 }
 
 // Recargar productos cada 30 segundos para mantener sincronización
+let usuarioInteractuando = false;
+
+window.addEventListener('scroll', () => {
+    usuarioInteractuando = true;
+});
+
 setInterval(() => {
-    cargarProductos();
+    if (!usuarioInteractuando) {
+        cargarProductos();
+    }
+    usuarioInteractuando = false;
 }, 30000);
+
 
