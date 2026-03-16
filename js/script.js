@@ -240,15 +240,16 @@ function openProductModal(p){
     whatsappBtn.id = 'modalWhatsappBtn';
     whatsappBtn.className = 'btn-whatsapp';
     whatsappBtn.target = '_blank';
-    whatsappBtn.style = 'display:inline-block;margin-top:1.2rem;padding:0.7rem 1.2rem;background:#25D366;color:#fff;font-weight:bold;border-radius:6px;text-decoration:none;font-family:\'Lora\',serif;font-size:1.1rem;box-shadow:0 2px 8px rgba(0,0,0,0.12);transition:background 0.2s;';
-    whatsappBtn.innerHTML = '<img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" style="height:1.2em;vertical-align:middle;margin-right:0.5em;filter:brightness(0) invert(1);">Chatear por WhatsApp';
+    whatsappBtn.style = 'display:flex;align-items:center;justify-content:center;margin-top:1.2rem;padding:0.8rem 1.2rem;background:#25D366;color:#fff;font-weight:bold;border-radius:8px;text-decoration:none;font-size:1.1rem;box-shadow:0 4px 10px rgba(37,211,102,0.2);transition:all 0.3s ease;border:none;cursor:pointer;text-transform:none;';
+    whatsappBtn.innerHTML = '<img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" style="height:1.2em;vertical-align:middle;margin-right:0.5em;filter:brightness(0) invert(1);">comprar por whatsapp';
     // Insertar después del precio
     const priceEl = document.getElementById('modalPrice');
     if (priceEl && priceEl.parentNode) {
       priceEl.parentNode.insertBefore(whatsappBtn, priceEl.nextSibling);
     }
   }
-  whatsappBtn.href = `https://wa.me/+527341439779?text=Hola,%20vi%20tu%20anuncio%20y%20quiero%20comprar%20${encodeURIComponent(p.name)}`;
+  const mensajeWhats = `Hola, me interesa este producto:\n\n*Producto:* ${p.name}\n*Precio:* $${p.price}\n\n*Ver imagen:* ${p.img}`;
+  whatsappBtn.href = `https://wa.me/+527341439779?text=${encodeURIComponent(mensajeWhats)}`;
   modal.classList.remove('hidden');
   // asignar acción agregar
   const modalAdd = document.getElementById('modalAdd');
