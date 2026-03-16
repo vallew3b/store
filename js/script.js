@@ -320,8 +320,15 @@ if (catLinks && catLinks.length) {
 renderProducts(initialFilter);
 updateCartCount();
 
+// Forzar scroll al inicio de la página al cargar
+if ('scrollRestoration' in history) {
+  history.scrollRestoration = 'manual';
+}
+window.scrollTo(0, 0);
+
 // Asegurar modal oculto al cargar (protección frente a aperturas automáticas)
 document.addEventListener('DOMContentLoaded', ()=>{
+  window.scrollTo(0, 0);
   const pm = document.getElementById('productModal');
   if (pm){
     pm.classList.add('hidden');

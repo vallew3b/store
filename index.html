@@ -683,6 +683,14 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <!-- Cargar nuestro script de integración -->
     <script src="store-web.js"></script>
+    <script>
+        // Forzar scroll al inicio de la página al cargar completamente
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                window.scrollTo(0, 0);
+            }, 0);
+        });
+    </script>
 </body>
 </html>
 

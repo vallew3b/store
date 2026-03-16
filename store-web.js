@@ -515,6 +515,12 @@ function cerrarModal() {
 
 // Cargar productos cuando la página esté lista y Supabase esté inicializado
 function inicializarTienda() {
+    // Forzar scroll al inicio de la página al cargar
+    if ('scrollRestoration' in history) {
+        history.scrollRestoration = 'manual';
+    }
+    window.scrollTo(0, 0);
+
     if (!supabaseClient) {
         // Esperar un poco más si Supabase aún no está listo
         setTimeout(inicializarTienda, 100);
