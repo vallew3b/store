@@ -6,6 +6,12 @@
     <title>IMPERIAL DESIGN - Tienda Online</title>
     <link href="https://fonts.googleapis.com/css?family=Montserrat:900,800,400&display=swap" rel="stylesheet">
     <style>
+                @font-face {
+                    font-family: 'Mexican Pride';
+                    src: url('css/mexican-pride-by-aspekhndz.ttf') format('truetype');
+                    font-weight: normal;
+                    font-style: normal;
+                }
         * {
             margin: 0;
             padding: 0;
@@ -58,11 +64,10 @@
         }
         .categoria-btn {
             background: #6C7BFF;
-            color: #fff;
+            color: #000;
             border: 2px solid #6C7BFF;
-            font-family: 'Montserrat', Arial, sans-serif;
-            font-weight: 900;
-            font-size: 1.1rem;
+            font-family: 'Mexican Pride', Arial, sans-serif;
+            font-size: 1.2rem;
             letter-spacing: 1px;
             text-transform: uppercase;
             transition: background 0.2s, color 0.2s;
@@ -70,10 +75,9 @@
         }
         .categoria-btn:hover,
         .categoria-btn.active {
-            background: #6C7BFF;
-            color: #fff;
+            background: #fff;
+            color: #6C7BFF;
             border-color: #6C7BFF;
-            font-weight: 900;
         }
         .producto-card {
             background: #111;
