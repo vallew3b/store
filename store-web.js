@@ -420,8 +420,9 @@ function mostrarDetallesProducto(productoId) {
                             <span id="modal-precio-texto"></span>
                         </div>
                         <div style="margin-top: 1.5rem; text-align: center;">
-                            <a id="modal-whatsapp-btn" class="btn-whatsapp" target="_blank" style="display:inline-block;padding:0.7rem 1.2rem;background:#25D366;color:#fff;font-weight:bold;border-radius:6px;text-decoration:none;font-family:'Lora',serif;font-size:1.1rem;box-shadow:0 2px 8px rgba(0,0,0,0.12);transition:background 0.2s;" href="#">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" style="height:1.2em;vertical-align:middle;margin-right:0.5em;filter:brightness(0) invert(1);">Chatear por WhatsApp
+                            <a id="modal-whatsapp-btn" class="btn-whatsapp" target="_blank" href="#">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+                                Comprar por WhatsApp
                             </a>
                         </div>
                     </div>
