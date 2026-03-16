@@ -13,12 +13,13 @@
         }
         body {
             font-family: 'Montserrat', Arial, sans-serif;
-            background: #111;
+            background: #000;
             color: #fff;
             min-height: 100vh;
         }
         .header {
             padding: 32px 0 0 32px;
+            background: #000;
         }
         .header-title {
             font-size: 2rem;
@@ -34,18 +35,68 @@
             align-items: center;
             justify-content: center;
             height: 70vh;
+            background: #000;
         }
         .main-title {
             font-size: 4rem;
             font-weight: 900;
             text-align: center;
             margin-bottom: 16px;
+            color: #fff;
         }
         .main-subtitle {
             font-size: 1.2rem;
             font-weight: 400;
             text-align: center;
             letter-spacing: 1px;
+            color: #fff;
+        }
+        /* Ajustar secciones y tarjetas para fondo negro */
+        .filtros, .productos-container, .seccion-productos, .modal-contenido {
+            background: #000 !important;
+            color: #fff !important;
+        }
+        .categoria-btn {
+            background: #111;
+            color: #fff;
+            border: 2px solid #222;
+        }
+        .categoria-btn:hover,
+        .categoria-btn.active {
+            background: #b6ff3b;
+            color: #000;
+            border-color: #b6ff3b;
+        }
+        .producto-card {
+            background: #111;
+            color: #fff;
+            border: 1px solid #222;
+        }
+        .producto-nombre, .producto-precio .precio {
+            color: #b6ff3b;
+        }
+        .producto-descripcion, .producto-detalles, .producto-info {
+            color: #fff;
+        }
+        .modal-cerrar {
+            background: #111;
+            color: #b6ff3b;
+        }
+        footer {
+            background: #000;
+            color: #fff;
+        }
+        /* Responsive para móvil */
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 2.2rem;
+            }
+            .main {
+                height: 40vh;
+            }
+            .header {
+                padding: 16px 0 0 16px;
+            }
         }
         /* ...existing code... */
 
