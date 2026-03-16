@@ -233,6 +233,22 @@ function openProductModal(p){
     const c = document.createElement('select'); c.className='color-select'; c.innerHTML = p.colors.map(x=>`<option value="${x}">${x}</option>`).join(''); options.appendChild(c);
   }
   document.getElementById('modalQty').value = 1;
+  // Agregar o actualizar botón WhatsApp en el modal
+  let whatsappBtn = document.getElementById('modalWhatsappBtn');
+  if (!whatsappBtn) {
+    whatsappBtn = document.createElement('a');
+    whatsappBtn.id = 'modalWhatsappBtn';
+    whatsappBtn.className = 'btn-whatsapp';
+    whatsappBtn.target = '_blank';
+    whatsappBtn.style = 'display:inline-block;margin-top:1.2rem;padding:0.7rem 1.2rem;background:#25D366;color:#fff;font-weight:bold;border-radius:6px;text-decoration:none;font-family:\'Lora\',serif;font-size:1.1rem;box-shadow:0 2px 8px rgba(0,0,0,0.12);transition:background 0.2s;';
+    whatsappBtn.innerHTML = '<img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" style="height:1.2em;vertical-align:middle;margin-right:0.5em;filter:brightness(0) invert(1);">Chatear por WhatsApp';
+    // Insertar después del precio
+    const priceEl = document.getElementById('modalPrice');
+    if (priceEl && priceEl.parentNode) {
+      priceEl.parentNode.insertBefore(whatsappBtn, priceEl.nextSibling);
+    }
+  }
+  whatsappBtn.href = `https://wa.me/+527341439779?text=Hola,%20vi%20tu%20anuncio%20y%20quiero%20comprar%20${encodeURIComponent(p.name)}`;
   modal.classList.remove('hidden');
   // asignar acción agregar
   const modalAdd = document.getElementById('modalAdd');
