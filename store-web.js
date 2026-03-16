@@ -206,21 +206,38 @@ function crearCardProducto(producto) {
     
     const precio = parseFloat(producto.precio_venta || producto.precio || 0).toFixed(2);
     const categoria = producto.categoria || 'OTROS';
+    const whatsappLink = `https://wa.me/+527341439779?text=Hola,%20me%20interesa%20el%20producto:%20${encodeURIComponent(producto.nombre)}`;
     
+    // Truncar descripción para consistencia en la altura de la card
+    const descripcionCorta = producto.descripcion 
+        ? `<p class="producto-descripcion">${producto.descripcion.substring(0, 50)}${producto.descripcion.length > 50 ? '...' : ''}</p>` 
+        : '';
+
     return `
-        <div class="producto-card" data-categoria="${categoria}" onclick="mostrarDetallesProducto(${producto.id})" style="cursor: pointer;">
-            <img src="${imagenUrl}" alt="${producto.nombre}" class="producto-imagen" 
-                 onerror="this.src='https://via.placeholder.com/300x300?text=Sin+Imagen'">
-            <div class="producto-info">
-                <h3 class="producto-nombre">${producto.nombre}</h3>
-                ${producto.descripcion ? `<p class="producto-descripcion">${producto.descripcion}</p>` : ''}
-                <div class="producto-detalles">
-                    ${producto.talla ? `<span class="producto-talla">Talla: ${producto.talla}</span>` : ''}
-                    ${producto.color ? `<span class="producto-color">Color: ${producto.color}</span>` : ''}
+        <div class="producto-card" data-categoria="${categoria}">
+            <div onclick="mostrarDetallesProducto(${producto.id})" style="cursor: pointer;">
+                <img src="${imagenUrl}" alt="${producto.nombre}" class="producto-imagen" 
+                     onerror="this.src='https://via.placeholder.com/300x300?text=Sin+Imagen'">
+                <div class="producto-info">
+                    <h3 class="producto-nombre">${producto.nombre}</h3>
+                    ${descripcionCorta}
+                    <div class="producto-detalles">
+                        ${producto.talla ? `<span class="producto-talla">Talla: ${producto.talla}</span>` : ''}
+                        ${producto.color ? `<span class="producto-color">Color: ${producto.color}</span>` : ''}
+                    </div>
+                    <div class="producto-precio">
+                        <span class="precio">$${precio}</span>
+                    </div>
                 </div>
-                <div class="producto-precio">
-                    <span class="precio">$${precio}</span>
-                </div>
+            </div>
+            <div class="producto-info" style="padding-top: 0; padding-bottom: 1.5rem;">
+                <a href="${whatsappLink}" 
+                   class="btn-whatsapp" 
+                   target="_blank" 
+                   style="display: block; width: 100%; text-align: center; padding: 0.7rem; background: #25D366; color: #fff; font-weight: bold; border-radius: 6px; text-decoration: none; font-size: 1rem; margin-top: 0.5rem;">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" style="height: 1.1em; vertical-align: middle; margin-right: 0.5em; filter: brightness(0) invert(1);">
+                    Pedir por WhatsApp
+                </a>
             </div>
         </div>
     `;
