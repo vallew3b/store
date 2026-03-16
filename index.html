@@ -6,6 +6,25 @@
     <title>IMPERIAL DESIGN - Tienda Online</title>
     <link href="https://fonts.googleapis.com/css?family=Montserrat:900,800,400&display=swap" rel="stylesheet">
     <style>
+                        /* Logo giratorio estilo video */
+                        .logo-video-container {
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            margin: 32px 0 0 0;
+                        }
+                        .logo-video {
+                            width: 140px;
+                            height: 140px;
+                            border-radius: 50%;
+                            overflow: hidden;
+                            box-shadow: 0 4px 24px rgba(0,0,0,0.25);
+                            animation: spin 3s linear infinite;
+                        }
+                        @keyframes spin {
+                            0% { transform: rotate(0deg); }
+                            100% { transform: rotate(360deg); }
+                        }
                 @font-face {
                     font-family: 'Mexican Pride';
                     src: url('fronts/mexican-pride-by-aspekhndz.ttf') format('truetype');
@@ -509,6 +528,9 @@
     </div>
     <div class="main">
         <div class="main-title">STREETWEAR<br>EVOLUTION</div>
+        <div class="logo-video-container">
+            <video class="logo-video" src="video/logo.mp4" autoplay loop muted playsinline></video>
+        </div>
         <div class="main-subtitle">LAS MEJORES PRENDAS URBANAS</div>
     </div>
     <!-- ...existing code... -->
