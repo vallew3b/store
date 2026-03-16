@@ -206,7 +206,16 @@ function crearCardProducto(producto) {
     
     const precio = parseFloat(producto.precio_venta || producto.precio || 0).toFixed(2);
     const categoria = producto.categoria || 'OTROS';
-    const whatsappLink = `https://wa.me/+527341439779?text=Hola,%20me%20interesa%20el%20producto:%20${encodeURIComponent(producto.nombre)}`;
+    
+    // Construir mensaje de WhatsApp detallado
+    let mensajeWhats = `Hola, me interesa este producto:\n\n*Producto:* ${producto.nombre}`;
+    if (producto.codigo) mensajeWhats += `\n*Código:* ${producto.codigo}`;
+    if (producto.talla) mensajeWhats += `\n*Talla:* ${producto.talla}`;
+    if (producto.color) mensajeWhats += `\n*Color:* ${producto.color}`;
+    mensajeWhats += `\n*Precio:* $${precio}`;
+    mensajeWhats += `\n\n*Ver imagen:* ${imagenUrl}`;
+    
+    const whatsappLink = `https://wa.me/+527341439779?text=${encodeURIComponent(mensajeWhats)}`;
     
     // Truncar descripción para consistencia en la altura de la card
     const descripcionCorta = producto.descripcion 
@@ -236,7 +245,7 @@ function crearCardProducto(producto) {
                    target="_blank" 
                    style="display: block; width: 100%; text-align: center; padding: 0.7rem; background: #25D366; color: #fff; font-weight: bold; border-radius: 6px; text-decoration: none; font-size: 1rem; margin-top: 0.5rem;">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" style="height: 1.1em; vertical-align: middle; margin-right: 0.5em; filter: brightness(0) invert(1);">
-                    Pedir por WhatsApp
+                    comprar por whatsapp
                 </a>
             </div>
         </div>
@@ -422,7 +431,7 @@ function mostrarDetallesProducto(productoId) {
                         <div style="margin-top: 1.5rem; text-align: center;">
                             <a id="modal-whatsapp-btn" class="btn-whatsapp" target="_blank" href="#">
                                 <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
-                                Comprar por WhatsApp
+                                comprar por whatsapp
                             </a>
                         </div>
                     </div>
@@ -451,10 +460,17 @@ function mostrarDetallesProducto(productoId) {
     document.getElementById('modal-imagen').src = imagenUrl;
     document.getElementById('modal-imagen').alt = producto.nombre;
     document.getElementById('modal-nombre').textContent = producto.nombre;
-    // Actualizar enlace de WhatsApp dinámicamente
+    // Actualizar enlace de WhatsApp dinámicamente con mensaje detallado
     var whatsappBtn = document.getElementById('modal-whatsapp-btn');
     if (whatsappBtn) {
-        whatsappBtn.href = `https://wa.me/+527341439779?text=Hola,%20vi%20tu%20anuncio%20y%20quiero%20comprar%20${encodeURIComponent(producto.nombre)}`;
+        let mensajeWhats = `Hola, me interesa este producto:\n\n*Producto:* ${producto.nombre}`;
+        if (producto.codigo) mensajeWhats += `\n*Código:* ${producto.codigo}`;
+        if (producto.talla) mensajeWhats += `\n*Talla:* ${producto.talla}`;
+        if (producto.color) mensajeWhats += `\n*Color:* ${producto.color}`;
+        mensajeWhats += `\n*Precio:* $${precio}`;
+        mensajeWhats += `\n\n*Ver imagen:* ${imagenUrl}`;
+        
+        whatsappBtn.href = `https://wa.me/+527341439779?text=${encodeURIComponent(mensajeWhats)}`;
     }
     
     const descripcionEl = document.getElementById('modal-descripcion');
