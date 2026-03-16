@@ -6,6 +6,37 @@
     <title>IMPERIAL DESIGN - Tienda Online</title>
     <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&display=swap" rel="stylesheet">
     <style>
+                                /* Quitar sombra/autofill blanca en input de búsqueda */
+                                .buscar-input {
+                                    background: #fff !important;
+                                    box-shadow: none !important;
+                                    color: #000;
+                                    outline: none;
+                                    border: 2px solid #ddd;
+                                    transition: border 0.2s;
+                                }
+                                .buscar-input:focus {
+                                    border: 2px solid #6C7BFF;
+                                }
+                                /* Quitar autofill amarillo/blanco en Chrome/Safari */
+                                input:-webkit-autofill,
+                                input:-webkit-autofill:focus {
+                                    box-shadow: 0 0 0 1000px #fff inset !important;
+                                    -webkit-box-shadow: 0 0 0 1000px #fff inset !important;
+                                    -webkit-text-fill-color: #000 !important;
+                                }
+                                /* Mejorar layout de botones en móvil */
+                                @media (max-width: 600px) {
+                                    .categorias {
+                                        flex-wrap: wrap;
+                                        gap: 0.3rem;
+                                    }
+                                    .categoria-btn {
+                                        min-width: 40vw;
+                                        font-size: 1rem;
+                                        padding: 0.5rem 0.2rem;
+                                    }
+                                }
                         /* Logo giratorio estilo video */
                         .logo-video-container {
                             display: flex;
