@@ -187,6 +187,7 @@ function renderProducts(filter='all'){
       <div class="card-body">
         <h4 class="card-title">${p.name}</h4>
         <div class="card-price">$${p.price}</div>
+        <a href="https://wa.me/+527341439779?text=Hola,%20vi%20tu%20anuncio%20y%20quiero%20comprar%20${encodeURIComponent(p.name)}" class="btn-whatsapp" target="_blank">Chatear por WhatsApp</a>
         <div class="card-actions">
           <div style="display:flex;gap:6px;align-items:center">${sizesHTML}${colorsHTML}</div>
           <button class="btn add-btn">Agregar</button>
