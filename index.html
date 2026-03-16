@@ -13,13 +13,13 @@
         }
         body {
             font-family: 'Montserrat', Arial, sans-serif;
-            background: #4F4F4F;
+            background: #000;
             color: #fff;
             min-height: 100vh;
         }
         .header {
             padding: 32px 0 0 32px;
-            background: #4F4F4F;
+            background: #000;
         }
         .header-title {
             font-size: 2rem;
@@ -35,7 +35,7 @@
             align-items: center;
             justify-content: center;
             height: 70vh;
-            background: #4F4F4F;
+            background: #000;
         }
         .main-title {
             font-size: 4rem;
@@ -53,28 +53,29 @@
         }
         /* Ajustar secciones y tarjetas para fondo negro */
         .filtros, .productos-container, .seccion-productos, .modal-contenido {
-            background: #4F4F4F !important;
+            background: #000 !important;
             color: #fff !important;
         }
         .categoria-btn {
-            background: #4F4F4F;
-            color: #b6ff3b;
-            border: 2px solid #222;
+            background: #b6ff3b;
+            color: #fff;
+            border: 2px solid #b6ff3b;
             font-family: 'Montserrat', Arial, sans-serif;
             font-weight: 800;
             font-size: 1.1rem;
             letter-spacing: 1px;
             text-transform: uppercase;
+            transition: background 0.2s, color 0.2s;
         }
         .categoria-btn:hover,
         .categoria-btn.active {
-            background: #b6ff3b;
-            color: #4F4F4F;
+            background: #fff;
+            color: #b6ff3b;
             border-color: #b6ff3b;
             font-weight: 900;
         }
         .producto-card {
-            background: #4F4F4F;
+            background: #111;
             color: #fff;
             border: 1px solid #222;
         }
@@ -85,11 +86,11 @@
             color: #fff;
         }
         .modal-cerrar {
-            background: #4F4F4F;
+            background: #111;
             color: #b6ff3b;
         }
         footer {
-            background: #4F4F4F;
+            background: #000;
             color: #fff;
         }
         /* Responsive para móvil */
