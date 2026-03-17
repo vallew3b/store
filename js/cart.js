@@ -16,7 +16,14 @@ function renderCart(){
     const plus = document.createElement('button'); plus.textContent='+'; plus.className='btn';
     const minus = document.createElement('button'); minus.textContent='-'; minus.className='btn';
     const del = document.createElement('button'); del.textContent='Eliminar'; del.className='btn';
-    plus.addEventListener('click', ()=>{ item.qty++; saveCart(cart); });
+    plus.addEventListener('click', ()=>{ 
+        if (item.stock && item.qty >= item.stock) {
+            alert(`No hay más stock disponible para ${item.name}. Máximo: ${item.stock}`);
+            return;
+        }
+        item.qty++; 
+        saveCart(cart); 
+    });
     minus.addEventListener('click', ()=>{ if(item.qty>1){ item.qty--; saveCart(cart); } });
     del.addEventListener('click', ()=>{ if(confirm('Eliminar item?')){ const idx = cart.findIndex(i=>i.id===item.id); cart.splice(idx,1); saveCart(cart); } });
     actions.appendChild(plus); actions.appendChild(minus); actions.appendChild(del);

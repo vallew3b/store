@@ -291,10 +291,16 @@ function agregarAlCarritoConTalla(productoId) {
         alert('Por favor selecciona una talla antes de agregar al carrito');
         return;
     }
-    
-    // Usar la función existente adaptada
+
+    // Validar stock antes de agregar
     const cart = JSON.parse(localStorage.getItem('cart') || '[]');
     const existing = cart.find(i => i.id === productoId && i.size === talla);
+    
+    const currentQty = existing ? existing.qty : 0;
+    if (currentQty + 1 > producto.stock) {
+        alert(`Lo sentimos, solo quedan ${producto.stock} unidades disponibles de este producto.`);
+        return;
+    }
     
     if (existing) {
         existing.qty++;
@@ -306,7 +312,8 @@ function agregarAlCarritoConTalla(productoId) {
             qty: 1,
             size: talla || 'N/A',
             color: producto.color || 'N/A',
-            image: producto.imagen
+            image: producto.imagen,
+            stock: producto.stock // Guardamos el stock para validarlo en la página del carrito
         });
     }
     
