@@ -115,9 +115,9 @@ if (checkoutForm) {
                     body: JSON.stringify({
                         items: preferenceItems,
                         back_urls: {
-                            success: window.location.origin + '/index.html?pago=exitoso',
-                            failure: window.location.origin + '/index.html?pago=error',
-                            pending: window.location.origin + '/index.html?pago=pendiente'
+                            success: "https://vallew3b.github.io/store/success.html",
+                            failure: "https://vallew3b.github.io/store/error.html",
+                            pending: "https://vallew3b.github.io/store/pending.html"
                         },
                         auto_return: 'approved'
                     })

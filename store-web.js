@@ -220,8 +220,8 @@ function crearCardProducto(producto) {
                         <button class="talla-btn" 
                                 data-id="${producto.id}" 
                                 data-talla="${t}" 
-                                onclick="event.stopPropagation(); seleccionarTalla(this, '${t}')" 
-                                style="background: #222; border: 1px solid #444; color: #fff; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; position: relative; z-index: 5;">
+                                onclick="event.preventDefault(); event.stopPropagation(); seleccionarTalla(this, '${t}')" 
+                                style="background: #222; border: 1px solid #444; color: #fff; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; position: relative; z-index: 100;">
                             ${t}
                         </button>
                     `).join('')}
@@ -231,29 +231,30 @@ function crearCardProducto(producto) {
     }
 
     return `
-        <div class="producto-card" data-categoria="${categoria}" style="position: relative; overflow: hidden;">
+        <div class="producto-card" data-categoria="${categoria}" style="position: relative; overflow: hidden; background: #111; border-radius: 10px; border: 1px solid #222;">
             <div class="producto-imagen-container">
                 <img src="${imagenUrl}" alt="${producto.nombre}" class="producto-imagen" 
-                     onerror="this.src='https://via.placeholder.com/300x300?text=Sin+Imagen'">
+                     onerror="this.src='https://via.placeholder.com/300x300?text=Sin+Imagen'"
+                     style="width: 100%; height: 220px; object-fit: cover;">
             </div>
-            <div class="producto-info">
+            <div class="producto-info" style="padding: 15px;">
                 <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                    <h3 class="producto-nombre" style="margin: 0; flex: 1;">${producto.nombre}</h3>
-                    <button onclick="mostrarDetallesProducto(${producto.id})" 
-                            style="background: none; border: 1px solid #b6ff3b; color: #b6ff3b; padding: 2px 8px; border-radius: 4px; cursor: pointer; font-size: 0.7rem; margin-left: 10px; white-space: nowrap;">
+                    <h3 class="producto-nombre" style="margin: 0; flex: 1; font-size: 1.1rem; color: #b6ff3b;">${producto.nombre}</h3>
+                    <button onclick="event.preventDefault(); event.stopPropagation(); mostrarDetallesProducto(${producto.id})" 
+                            style="background: none; border: 1px solid #b6ff3b; color: #b6ff3b; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 0.7rem; margin-left: 10px; white-space: nowrap; font-weight: bold;">
                         VER DETALLES
                     </button>
                 </div>
-                <div class="producto-detalles" style="margin-top: 5px;">
-                    ${producto.color ? `<span class="producto-color">Color: ${producto.color}</span>` : ''}
+                <div class="producto-detalles" style="margin-top: 5px; color: #fff; font-size: 0.9rem;">
+                    ${producto.color ? `<span>Color: ${producto.color}</span>` : ''}
                 </div>
                 ${tallasHTML}
                 <div class="producto-precio" style="margin-top: 10px;">
-                    <span class="precio">$${precio}</span>
+                    <span class="precio" style="font-size: 1.4rem; font-weight: bold; color: #6C7BFF;">$${precio}</span>
                 </div>
-                <button onclick="agregarAlCarritoConTalla(${producto.id})" 
+                <button onclick="event.preventDefault(); event.stopPropagation(); agregarAlCarritoConTalla(${producto.id})" 
                    class="btn-agregar-carrito" 
-                   style="display: block; width: 100%; text-align: center; padding: 0.7rem; background: #b6ff3b; color: #000; font-weight: bold; border: none; border-radius: 6px; cursor: pointer; font-size: 1rem; margin-top: 10px; transition: background 0.3s; position: relative; z-index: 5;">
+                   style="display: block; width: 100%; text-align: center; padding: 12px; background: #b6ff3b; color: #000; font-weight: bold; border: none; border-radius: 6px; cursor: pointer; font-size: 1rem; margin-top: 12px; transition: background 0.3s; position: relative; z-index: 50;">
                     AGREGAR AL CARRITO
                 </button>
             </div>
