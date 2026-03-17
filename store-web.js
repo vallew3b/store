@@ -239,7 +239,7 @@ function crearCardProducto(producto) {
             </div>
             <div class="producto-info" style="padding: 15px;">
                 <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                    <h3 class="producto-nombre" style="margin: 0; flex: 1; font-size: 1.1rem; color: #dc1237ff;">${producto.nombre}</h3>
+                    <h3 class="producto-nombre" style="margin: 0; flex: 1; font-size: 1.1rem; color: #ffffffff;">${producto.nombre}</h3>
                     <button onclick="event.preventDefault(); event.stopPropagation(); mostrarDetallesProducto(${producto.id})" 
                             style="background: none; border: 1px solid #dc1237ff; color: #dc1237ff; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 0.7rem; margin-left: 10px; white-space: nowrap; font-weight: bold;">
                         VER DETALLES
