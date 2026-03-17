@@ -207,7 +207,7 @@ function crearCardProducto(producto) {
     const precio = parseFloat(producto.precio_venta || producto.precio || 0).toFixed(2);
     const categoria = producto.categoria || 'OTROS';
     
-    // Procesar tallas (asumiendo que vienen separadas por comas en la base)
+    // Procesar tallas
     const tallasDisponibles = (producto.talla || '').split(',').map(t => t.trim()).filter(t => t !== '');
     let tallasHTML = '';
     
@@ -221,7 +221,7 @@ function crearCardProducto(producto) {
                                 data-id="${producto.id}" 
                                 data-talla="${t}" 
                                 onclick="event.stopPropagation(); seleccionarTalla(this, '${t}')" 
-                                style="background: #222; border: 1px solid #444; color: #fff; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 0.8rem;">
+                                style="background: #222; border: 1px solid #444; color: #fff; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; position: relative; z-index: 5;">
                             ${t}
                         </button>
                     `).join('')}
@@ -231,18 +231,20 @@ function crearCardProducto(producto) {
     }
 
     return `
-        <div class="producto-card" data-categoria="${categoria}">
-            <div class="producto-imagen-container" style="position: relative;">
+        <div class="producto-card" data-categoria="${categoria}" style="position: relative; overflow: hidden;">
+            <div class="producto-imagen-container">
                 <img src="${imagenUrl}" alt="${producto.nombre}" class="producto-imagen" 
                      onerror="this.src='https://via.placeholder.com/300x300?text=Sin+Imagen'">
-                <button onclick="mostrarDetallesProducto(${producto.id})" 
-                        style="position: absolute; bottom: 10px; right: 10px; background: rgba(0,0,0,0.7); color: #fff; border: 1px solid #b6ff3b; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 0.8rem;">
-                    VER DETALLES
-                </button>
             </div>
             <div class="producto-info">
-                <h3 class="producto-nombre">${producto.nombre}</h3>
-                <div class="producto-detalles">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                    <h3 class="producto-nombre" style="margin: 0; flex: 1;">${producto.nombre}</h3>
+                    <button onclick="mostrarDetallesProducto(${producto.id})" 
+                            style="background: none; border: 1px solid #b6ff3b; color: #b6ff3b; padding: 2px 8px; border-radius: 4px; cursor: pointer; font-size: 0.7rem; margin-left: 10px; white-space: nowrap;">
+                        VER DETALLES
+                    </button>
+                </div>
+                <div class="producto-detalles" style="margin-top: 5px;">
                     ${producto.color ? `<span class="producto-color">Color: ${producto.color}</span>` : ''}
                 </div>
                 ${tallasHTML}
@@ -251,7 +253,7 @@ function crearCardProducto(producto) {
                 </div>
                 <button onclick="agregarAlCarritoConTalla(${producto.id})" 
                    class="btn-agregar-carrito" 
-                   style="display: block; width: 100%; text-align: center; padding: 0.7rem; background: #b6ff3b; color: #000; font-weight: bold; border: none; border-radius: 6px; cursor: pointer; font-size: 1rem; margin-top: 10px; transition: background 0.3s;">
+                   style="display: block; width: 100%; text-align: center; padding: 0.7rem; background: #b6ff3b; color: #000; font-weight: bold; border: none; border-radius: 6px; cursor: pointer; font-size: 1rem; margin-top: 10px; transition: background 0.3s; position: relative; z-index: 5;">
                     AGREGAR AL CARRITO
                 </button>
             </div>
