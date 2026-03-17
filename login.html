@@ -68,13 +68,17 @@
 <body>
     <div class="login-container">
         <h2>Iniciar Sesión</h2>
-        <form>
-            <input type="email" placeholder="Correo Electrónico" required>
-            <input type="password" placeholder="Contraseña" required>
+        <form id="loginForm">
+            <input type="email" id="loginEmail" placeholder="Correo Electrónico" required>
+            <input type="password" id="loginPass" placeholder="Contraseña" required>
             <button type="submit">Entrar</button>
         </form>
+        <p id="loginMsg" style="margin-top: 10px; color: #ff6b6b;"></p>
         <p>¿No tienes una cuenta? <a href="register.html">Regístrate</a></p>
         <p><a href="#">¿Olvidaste tu contraseña?</a></p>
     </div>
+    <!-- Cargar Supabase y script de autenticación -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="auth.js"></script>
 </body>
 </html>

@@ -23,13 +23,19 @@
             border-radius: 10px;
             box-shadow: 0 0 20px rgba(0,0,0,0.5);
             width: 100%;
-            max-width: 400px;
+            max-width: 500px;
             text-align: center;
+            margin: 20px 0;
         }
         .register-container h2 {
             margin-bottom: 1.5rem;
             font-size: 2rem;
             color: #b6ff3b;
+        }
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
         }
         .register-container input {
             width: 100%;
@@ -41,7 +47,11 @@
             color: #fff;
             font-size: 1rem;
         }
+        .full-width {
+            grid-column: span 2;
+        }
         .register-container button {
+            grid-column: span 2;
             width: 100%;
             padding: 0.75rem;
             border: none;
@@ -68,14 +78,24 @@
 <body>
     <div class="register-container">
         <h2>Crear Cuenta</h2>
-        <form>
-            <input type="text" placeholder="Nombre Completo" required>
-            <input type="email" placeholder="Correo Electrónico" required>
-            <input type="password" placeholder="Contraseña" required>
-            <input type="password" placeholder="Confirmar Contraseña" required>
-            <button type="submit">Registrarse</button>
+        <form id="registerForm">
+            <div class="form-grid">
+                <input type="text" id="regNombre" placeholder="Nombre" required>
+                <input type="text" id="regApellidos" placeholder="Apellidos" required>
+                
+                <input type="email" id="regEmail" placeholder="Correo Electrónico" class="full-width" required>
+                
+                <input type="password" id="regPass" placeholder="Contraseña" class="full-width" required>
+                <input type="password" id="regPassConfirm" placeholder="Confirmar Contraseña" class="full-width" required>
+                
+                <button type="submit">Registrarse</button>
+            </div>
         </form>
+        <p id="regMsg" style="margin-top: 10px; color: #ff6b6b;"></p>
         <p>¿Ya tienes una cuenta? <a href="login.html">Inicia Sesión</a></p>
     </div>
+    <!-- Cargar Supabase y script de autenticación -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="auth.js"></script>
 </body>
 </html>
