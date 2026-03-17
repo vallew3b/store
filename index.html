@@ -94,7 +94,10 @@
             min-height: 100vh;
         }
         .header {
-            padding: 32px 0 0 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
             background: #000;
         }
         .header-title {
@@ -102,6 +105,37 @@
             font-weight: 700;
             letter-spacing: 2px;
             font-family: 'Lora', serif;
+        }
+        .header-icons {
+            display: flex;
+            gap: 20px;
+        }
+        .icon-link img {
+            width: 30px;
+            height: 30px;
+        }
+        .user-menu-container {
+            position: relative;
+        }
+        .user-dropdown {
+            display: none;
+            position: absolute;
+            top: 40px;
+            right: 0;
+            background: #111;
+            border: 1px solid #444;
+            border-radius: 5px;
+            width: 150px;
+            z-index: 100;
+        }
+        .user-dropdown a {
+            display: block;
+            padding: 10px;
+            color: #fff;
+            text-decoration: none;
+        }
+        .user-dropdown a:hover {
+            background: #333;
         }
         .header-title .accent {
             color: #b6ff3b;
@@ -185,7 +219,14 @@
                 height: 40vh;
             }
             .header {
-                padding: 16px 0 0 16px;
+                padding: 15px 20px;
+            }
+            .header-title {
+                font-size: 1.5rem;
+            }
+            .icon-link img {
+                width: 25px;
+                height: 25px;
             }
         }
         /* ...existing code... */
@@ -624,6 +665,16 @@
 <body>
     <div class="header">
         <span class="header-title">IMPERIAL <span class="accent">DESIGN</span></span>
+        <div class="header-icons">
+            <div class="user-menu-container">
+                <a href="#" class="icon-link user-icon"><img src="https://img.icons8.com/ios-glyphs/30/ffffff/user-male-circle.png" alt="Usuario"></a>
+                <div class="user-dropdown">
+                    <a href="login.html">Iniciar Sesión</a>
+                    <a href="register.html">Registrarse</a>
+                </div>
+            </div>
+            <a href="cart.html" class="icon-link"><img src="https://img.icons8.com/ios-glyphs/30/ffffff/shopping-cart.png" alt="Carrito"></a>
+        </div>
     </div>
     <div class="main">
         <div class="logo-video-container">
@@ -689,6 +740,17 @@
             setTimeout(function() {
                 window.scrollTo(0, 0);
             }, 0);
+        });
+
+        document.querySelector('.user-icon').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.querySelector('.user-dropdown').style.display = 'block';
+        });
+
+        window.addEventListener('click', function(e) {
+            if (!e.target.closest('.user-menu-container')) {
+                document.querySelector('.user-dropdown').style.display = 'none';
+            }
         });
     </script>
 </body>
