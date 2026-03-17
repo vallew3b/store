@@ -34,10 +34,26 @@
       <input id="cEstado" placeholder="Estado" required />
       <input id="cCP" placeholder="Código Postal" required />
       
-      <button class="btn full-width" type="submit">Realizar Pedido por WhatsApp</button>
+      <div class="full-width" style="margin-top: 20px;">
+        <label style="display: block; margin-bottom: 10px; font-weight: bold; color: #b6ff3b;">Método de Pago:</label>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+          <label style="background: #222; padding: 15px; border-radius: 6px; border: 1px solid #444; cursor: pointer; display: flex; align-items: center; gap: 10px;">
+            <input type="radio" name="paymentMethod" value="whatsapp" checked style="width: auto;">
+            WhatsApp
+          </label>
+          <label style="background: #222; padding: 15px; border-radius: 6px; border: 1px solid #444; cursor: pointer; display: flex; align-items: center; gap: 10px;">
+            <input type="radio" name="paymentMethod" value="mercadopago" style="width: auto;">
+            Mercado Pago
+          </label>
+        </div>
+      </div>
+      
+      <button class="btn full-width" type="submit" id="btnFinalizar">Finalizar Pedido</button>
     </form>
     <div id="checkoutMsg" style="margin-top:12px; text-align: center;"></div>
   </div>
+  <!-- Mercado Pago SDK -->
+  <script src="https://sdk.mercadopago.com/js/v2"></script>
   <!-- Supabase para guardar dirección si está logueado -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/checkout.js"></script>

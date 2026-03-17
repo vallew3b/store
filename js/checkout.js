@@ -3,9 +3,16 @@ const SUPABASE_URL = 'https://pyuqebokjhtwyrojwgxd.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_IUyaOWBuDvTAURD92VCxQQ_AGQN1-pw';
 let supabaseClient;
 
+// Mercado Pago Public Key
+const MP_PUBLIC_KEY = 'APP_USR-35edbaa8-ee11-4e30-8c9e-a22467145899';
+const MP_ACCESS_TOKEN = 'APP_USR-8258188563686951-031712-181827d3316dfaa639ad5b7046863d9d-3272401105';
+
 if (typeof supabase !== 'undefined') {
     supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 }
+
+// Inicializar Mercado Pago
+const mp = new MercadoPago(MP_PUBLIC_KEY, { locale: 'es-MX' });
 
 function getCart() { return JSON.parse(localStorage.getItem('cart') || '[]'); }
 
@@ -35,7 +42,7 @@ function renderOrderSummary() {
     let total = 0;
     orderSummary.innerHTML = cart.map(i => {
         total += i.price * i.qty;
-        return `<div style="padding:6px 0; color: #fff;"><strong>${i.name}</strong> ${i.size ? '/ ' + i.size : ''} ${i.color ? '/ ' + i.color : ''} — $${i.price} x ${i.qty}</div>`;
+        return `<div style="padding:6px 0; color: #fff;"><strong>${i.name}</strong> ${i.size ? '/ Talla: ' + i.size : ''} ${i.color ? '/ Color: ' + i.color : ''} — $${i.price} x ${i.qty}</div>`;
     }).join('') + `<div style="margin-top:8px; font-size: 1.2rem; color: #b6ff3b;"><strong>Total: $${total.toFixed(2)}</strong></div>`;
 }
 
@@ -56,6 +63,8 @@ if (checkoutForm) {
             cp: document.getElementById('cCP').value
         };
 
+        const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+
         // Si el usuario está logueado, actualizar su dirección en Supabase
         const usuarioLogueado = JSON.parse(localStorage.getItem('usuarioLogueado'));
         if (usuarioLogueado && supabaseClient) {
@@ -73,34 +82,73 @@ if (checkoutForm) {
                     .eq('email', usuarioLogueado.email);
 
                 if (!error) {
-                    // Actualizar localStorage con la nueva dirección
                     const updatedUser = { ...usuarioLogueado, ...customer, telefono: customer.phone };
                     localStorage.setItem('usuarioLogueado', JSON.stringify(updatedUser));
                 }
-            } catch (err) {
-                console.error('Error actualizando dirección:', err);
-            }
+            } catch (err) { console.error('Error actualizando dirección:', err); }
         }
 
-        // Construir mensaje para WhatsApp
         let total = 0;
         let itemsDetalle = cart.map(i => {
             total += i.price * i.qty;
             return `- ${i.name} (${i.size || 'N/A'}, ${i.color || 'N/A'}) x${i.qty}: $${(i.price * i.qty).toFixed(2)}`;
         }).join('\n');
 
-        const mensajeWhats = `Hola, quiero realizar un pedido:\n\n*PRODUCTOS:*\n${itemsDetalle}\n\n*TOTAL:* $${total.toFixed(2)}\n\n*DATOS DE ENVÍO:*\n*Nombre:* ${customer.name}\n*Tel:* ${customer.phone}\n*Dirección:* ${customer.calle}, Col. ${customer.colonia}, ${customer.ciudad}, ${customer.estado}, CP: ${customer.cp}`;
+        if (paymentMethod === 'mercadopago') {
+            checkoutMsg.innerHTML = '<strong style="color: #b6ff3b;">Preparando pago con Mercado Pago...</strong>';
+            
+            try {
+                // Crear preferencia de pago con MP API (Inseguro en frontend, pero solicitado por el contexto)
+                const preferenceItems = cart.map(i => ({
+                    title: `${i.name} (${i.size})`,
+                    unit_price: i.price,
+                    quantity: i.qty,
+                    currency_id: 'MXN'
+                }));
 
-        const whatsappLink = `https://wa.me/+527341439779?text=${encodeURIComponent(mensajeWhats)}`;
+                const response = await fetch('https://api.mercadopago.com/checkout/preferences', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${MP_ACCESS_TOKEN}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        items: preferenceItems,
+                        back_urls: {
+                            success: window.location.origin + '/index.html?pago=exitoso',
+                            failure: window.location.origin + '/index.html?pago=error',
+                            pending: window.location.origin + '/index.html?pago=pendiente'
+                        },
+                        auto_return: 'approved'
+                    })
+                });
 
-        // Limpiar carrito y redirigir
-        localStorage.removeItem('cart');
-        checkoutMsg.innerHTML = '<strong style="color: #b6ff3b;">Redirigiendo a WhatsApp...</strong>';
-        
-        setTimeout(() => {
-            window.open(whatsappLink, '_blank');
-            window.location.href = 'index.html';
-        }, 1500);
+                const preference = await response.json();
+                
+                if (preference.init_point) {
+                    localStorage.removeItem('cart');
+                    window.location.href = preference.init_point;
+                } else {
+                    throw new Error('No se pudo generar el link de pago');
+                }
+            } catch (error) {
+                console.error('Error MP:', error);
+                alert('Error al conectar con Mercado Pago. Intenta de nuevo.');
+                checkoutMsg.innerHTML = '';
+            }
+
+        } else {
+            // WhatsApp
+            const mensajeWhats = `Hola, quiero realizar un pedido:\n\n*PRODUCTOS:*\n${itemsDetalle}\n\n*TOTAL:* $${total.toFixed(2)}\n\n*DATOS DE ENVÍO:*\n*Nombre:* ${customer.name}\n*Tel:* ${customer.phone}\n*Dirección:* ${customer.calle}, Col. ${customer.colonia}, ${customer.ciudad}, ${customer.estado}, CP: ${customer.cp}`;
+            const whatsappLink = `https://wa.me/+527341439779?text=${encodeURIComponent(mensajeWhats)}`;
+            
+            localStorage.removeItem('cart');
+            checkoutMsg.innerHTML = '<strong style="color: #b6ff3b;">Redirigiendo a WhatsApp...</strong>';
+            setTimeout(() => {
+                window.open(whatsappLink, '_blank');
+                window.location.href = 'index.html';
+            }, 1500);
+        }
     });
 }
 

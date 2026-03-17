@@ -207,20 +207,24 @@ function crearCardProducto(producto) {
     const precio = parseFloat(producto.precio_venta || producto.precio || 0).toFixed(2);
     const categoria = producto.categoria || 'OTROS';
     
-    // Construir mensaje de WhatsApp detallado
-    let mensajeWhats = `Hola, me interesa este producto:\n\n*Producto:* ${producto.nombre}`;
-    if (producto.codigo) mensajeWhats += `\n*Código:* ${producto.codigo}`;
-    if (producto.talla) mensajeWhats += `\n*Talla:* ${producto.talla}`;
-    if (producto.color) mensajeWhats += `\n*Color:* ${producto.color}`;
-    mensajeWhats += `\n*Precio:* $${precio}`;
-    mensajeWhats += `\n\n*Ver imagen:* ${imagenUrl}`;
+    // Procesar tallas (asumiendo que vienen separadas por comas en la base)
+    const tallasDisponibles = (producto.talla || '').split(',').map(t => t.trim()).filter(t => t !== '');
+    let tallasHTML = '';
     
-    const whatsappLink = `https://wa.me/+527341439779?text=${encodeURIComponent(mensajeWhats)}`;
-    
-    // Truncar descripción para consistencia en la altura de la card
-    const descripcionCorta = producto.descripcion 
-        ? `<p class="producto-descripcion">${producto.descripcion.substring(0, 50)}${producto.descripcion.length > 50 ? '...' : ''}</p>` 
-        : '';
+    if (tallasDisponibles.length > 0) {
+        tallasHTML = `
+            <div class="selector-tallas" style="margin-top: 10px;">
+                <label style="font-size: 0.8rem; color: #aaa; display: block; margin-bottom: 5px;">Selecciona Talla:</label>
+                <div style="display: flex; gap: 5px; flex-wrap: wrap;">
+                    ${tallasDisponibles.map(t => `
+                        <button class="talla-btn" data-id="${producto.id}" data-talla="${t}" onclick="seleccionarTalla(this, '${t}')" style="background: #222; border: 1px solid #444; color: #fff; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 0.8rem;">
+                            ${t}
+                        </button>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+    }
 
     return `
         <div class="producto-card" data-categoria="${categoria}">
@@ -229,27 +233,76 @@ function crearCardProducto(producto) {
                      onerror="this.src='https://via.placeholder.com/300x300?text=Sin+Imagen'">
                 <div class="producto-info">
                     <h3 class="producto-nombre">${producto.nombre}</h3>
-                    ${descripcionCorta}
                     <div class="producto-detalles">
-                        ${producto.talla ? `<span class="producto-talla">Talla: ${producto.talla}</span>` : ''}
                         ${producto.color ? `<span class="producto-color">Color: ${producto.color}</span>` : ''}
                     </div>
+                    ${tallasHTML}
                     <div class="producto-precio">
                         <span class="precio">$${precio}</span>
                     </div>
                 </div>
             </div>
             <div class="producto-info" style="padding-top: 0; padding-bottom: 1.5rem;">
-                <a href="${whatsappLink}" 
-                   class="btn-whatsapp" 
-                   target="_blank" 
-                   style="display: block; width: 100%; text-align: center; padding: 0.7rem; background: #25D366; color: #fff; font-weight: bold; border-radius: 6px; text-decoration: none; font-size: 1rem; margin-top: 0.5rem;">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" style="height: 1.1em; vertical-align: middle; margin-right: 0.5em; filter: brightness(0) invert(1);">
-                    comprar por whatsapp
-                </a>
+                <button onclick="agregarAlCarritoConTalla(${producto.id})" 
+                   class="btn-agregar-carrito" 
+                   style="display: block; width: 100%; text-align: center; padding: 0.7rem; background: #b6ff3b; color: #000; font-weight: bold; border: none; border-radius: 6px; cursor: pointer; font-size: 1rem; margin-top: 0.5rem; transition: background 0.3s;">
+                    AGREGAR AL CARRITO
+                </button>
             </div>
         </div>
     `;
+}
+
+// Global para rastrear talla seleccionada por producto
+let tallasSeleccionadas = {};
+
+function seleccionarTalla(btn, talla) {
+    const productId = btn.getAttribute('data-id');
+    tallasSeleccionadas[productId] = talla;
+    
+    // Resetear estilos de otros botones del mismo producto
+    btn.parentElement.querySelectorAll('.talla-btn').forEach(b => {
+        b.style.background = '#222';
+        b.style.borderColor = '#444';
+        b.style.color = '#fff';
+    });
+    
+    // Marcar el seleccionado
+    btn.style.background = '#b6ff3b';
+    btn.style.borderColor = '#b6ff3b';
+    btn.style.color = '#000';
+}
+
+function agregarAlCarritoConTalla(productoId) {
+    const talla = tallasSeleccionadas[productoId];
+    const producto = productos.find(p => p.id === productoId);
+    
+    // Si el producto tiene tallas pero no se seleccionó ninguna
+    if ((producto.talla || '').split(',').filter(t => t.trim() !== '').length > 0 && !talla) {
+        alert('Por favor selecciona una talla antes de agregar al carrito');
+        return;
+    }
+    
+    // Usar la función existente adaptada
+    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    const existing = cart.find(i => i.id === productoId && i.size === talla);
+    
+    if (existing) {
+        existing.qty++;
+    } else {
+        cart.push({
+            id: producto.id,
+            name: producto.nombre,
+            price: parseFloat(producto.precio_venta || producto.precio || 0),
+            qty: 1,
+            size: talla || 'N/A',
+            color: producto.color || 'N/A',
+            image: producto.imagen
+        });
+    }
+    
+    localStorage.setItem('cart', JSON.stringify(cart));
+    mostrarMensaje('¡Producto agregado al carrito!');
 }
 
 // Filtrar productos por categoría
