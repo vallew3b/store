@@ -217,7 +217,11 @@ function crearCardProducto(producto) {
                 <label style="font-size: 0.8rem; color: #aaa; display: block; margin-bottom: 5px;">Selecciona Talla:</label>
                 <div style="display: flex; gap: 5px; flex-wrap: wrap;">
                     ${tallasDisponibles.map(t => `
-                        <button class="talla-btn" data-id="${producto.id}" data-talla="${t}" onclick="seleccionarTalla(this, '${t}')" style="background: #222; border: 1px solid #444; color: #fff; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 0.8rem;">
+                        <button class="talla-btn" 
+                                data-id="${producto.id}" 
+                                data-talla="${t}" 
+                                onclick="event.stopPropagation(); seleccionarTalla(this, '${t}')" 
+                                style="background: #222; border: 1px solid #444; color: #fff; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 0.8rem;">
                             ${t}
                         </button>
                     `).join('')}
@@ -228,24 +232,26 @@ function crearCardProducto(producto) {
 
     return `
         <div class="producto-card" data-categoria="${categoria}">
-            <div onclick="mostrarDetallesProducto(${producto.id})" style="cursor: pointer;">
+            <div class="producto-imagen-container" style="position: relative;">
                 <img src="${imagenUrl}" alt="${producto.nombre}" class="producto-imagen" 
                      onerror="this.src='https://via.placeholder.com/300x300?text=Sin+Imagen'">
-                <div class="producto-info">
-                    <h3 class="producto-nombre">${producto.nombre}</h3>
-                    <div class="producto-detalles">
-                        ${producto.color ? `<span class="producto-color">Color: ${producto.color}</span>` : ''}
-                    </div>
-                    ${tallasHTML}
-                    <div class="producto-precio">
-                        <span class="precio">$${precio}</span>
-                    </div>
-                </div>
+                <button onclick="mostrarDetallesProducto(${producto.id})" 
+                        style="position: absolute; bottom: 10px; right: 10px; background: rgba(0,0,0,0.7); color: #fff; border: 1px solid #b6ff3b; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 0.8rem;">
+                    VER DETALLES
+                </button>
             </div>
-            <div class="producto-info" style="padding-top: 0; padding-bottom: 1.5rem;">
+            <div class="producto-info">
+                <h3 class="producto-nombre">${producto.nombre}</h3>
+                <div class="producto-detalles">
+                    ${producto.color ? `<span class="producto-color">Color: ${producto.color}</span>` : ''}
+                </div>
+                ${tallasHTML}
+                <div class="producto-precio" style="margin-top: 10px;">
+                    <span class="precio">$${precio}</span>
+                </div>
                 <button onclick="agregarAlCarritoConTalla(${producto.id})" 
                    class="btn-agregar-carrito" 
-                   style="display: block; width: 100%; text-align: center; padding: 0.7rem; background: #b6ff3b; color: #000; font-weight: bold; border: none; border-radius: 6px; cursor: pointer; font-size: 1rem; margin-top: 0.5rem; transition: background 0.3s;">
+                   style="display: block; width: 100%; text-align: center; padding: 0.7rem; background: #b6ff3b; color: #000; font-weight: bold; border: none; border-radius: 6px; cursor: pointer; font-size: 1rem; margin-top: 10px; transition: background 0.3s;">
                     AGREGAR AL CARRITO
                 </button>
             </div>

@@ -99,16 +99,28 @@
             align-items: center;
             padding: 20px 40px;
             background: #000;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
         .header-title {
             font-size: 2rem;
             font-weight: 700;
             letter-spacing: 2px;
             font-family: 'Lora', serif;
+            flex-shrink: 0;
         }
         .header-icons {
             display: flex;
             gap: 20px;
+            align-items: center;
+        }
+        .icon-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 44px;
+            min-height: 44px;
         }
         .icon-link img {
             width: 30px;
@@ -219,14 +231,25 @@
                 height: 40vh;
             }
             .header {
-                padding: 15px 20px;
+                padding: 10px 15px;
             }
             .header-title {
-                font-size: 1.5rem;
+                font-size: 1.2rem;
+            }
+            .header-icons {
+                gap: 5px;
+            }
+            .icon-link {
+                min-width: 40px;
+                min-height: 40px;
             }
             .icon-link img {
-                width: 25px;
-                height: 25px;
+                width: 24px;
+                height: 24px;
+            }
+            #userDisplayName {
+                font-size: 0.8rem;
+                margin-right: 5px !important;
             }
         }
         /* ...existing code... */
