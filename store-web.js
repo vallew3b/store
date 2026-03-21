@@ -67,8 +67,7 @@ async function cargarProductos() {
     try {
         const { data, error } = await supabaseClient
             .from('productos')
-            .select('*')
-            .gt('stock', 0) // Solo productos con stock > 0
+            .select('*, producto_variantes(*)')
             .order('fecha_creacion', { ascending: false });
 
         if (error) {
@@ -77,7 +76,16 @@ async function cargarProductos() {
             return;
         }
 
-        productos = data || [];
+        const productosProcesados = (data || []).map(p => {
+            const variantes = p.producto_variantes || [];
+            p.variantes = variantes;
+            p.stock = variantes.reduce((sum, v) => sum + (v.stock || 0), 0);
+            p.talla = [...new Set(variantes.filter(v => v.stock > 0 && v.talla).map(v => v.talla))].join(', ');
+            p.color = [...new Set(variantes.filter(v => v.stock > 0 && v.color).map(v => v.color))].join(', ');
+            return p;
+        }).filter(p => p.stock > 0);
+
+        productos = productosProcesados;
         mostrarProductos(productos);
     } catch (error) {
         console.error('Error:', error);
@@ -292,13 +300,25 @@ function agregarAlCarritoConTalla(productoId) {
         return;
     }
 
+    let varianteSeleccionada = null;
+    if (producto.variantes && producto.variantes.length > 0) {
+        if (talla) {
+            varianteSeleccionada = producto.variantes.find(v => v.talla === talla);
+        } else {
+            varianteSeleccionada = producto.variantes[0];
+        }
+    }
+
+    const varianteId = varianteSeleccionada ? (varianteSeleccionada.id || null) : null;
+    const stockDisponible = varianteSeleccionada ? (varianteSeleccionada.stock || 0) : (producto.stock || 0);
+
     // Validar stock antes de agregar
     const cart = JSON.parse(localStorage.getItem('cart') || '[]');
     const existing = cart.find(i => i.id === productoId && i.size === talla);
     
     const currentQty = existing ? existing.qty : 0;
-    if (currentQty + 1 > producto.stock) {
-        alert(`Lo sentimos, solo quedan ${producto.stock} unidades disponibles de este producto.`);
+    if (currentQty + 1 > stockDisponible) {
+        alert(`Lo sentimos, solo quedan ${stockDisponible} unidades disponibles de esta variante.`);
         return;
     }
     
@@ -307,13 +327,14 @@ function agregarAlCarritoConTalla(productoId) {
     } else {
         cart.push({
             id: producto.id,
+            variante_id: varianteId,
             name: producto.nombre,
             price: parseFloat(producto.precio_venta || producto.precio || 0),
             qty: 1,
             size: talla || 'N/A',
-            color: producto.color || 'N/A',
+            color: varianteSeleccionada ? (varianteSeleccionada.color || producto.color || 'N/A') : (producto.color || 'N/A'),
             image: producto.imagen,
-            stock: producto.stock // Guardamos el stock para validarlo en la página del carrito
+            stock: stockDisponible // Guardamos el stock para validarlo en la página del carrito
         });
     }
     

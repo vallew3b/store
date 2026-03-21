@@ -24,17 +24,28 @@ async function renderCart(){
       const ids = [...new Set(cart.map(item => item.id))];
       const { data, error } = await supabaseClient
         .from('productos')
-        .select('id, stock')
+        .select('id, producto_variantes(stock, talla)')
         .in('id', ids);
       
       if (!error && data) {
-        data.forEach(p => stockReal[p.id] = p.stock);
+        data.forEach(p => {
+          const variantes = p.producto_variantes || [];
+          cart.filter(item => item.id === p.id).forEach(item => {
+            if (item.size && item.size !== 'N/A') {
+              const v = variantes.find(va => va.talla === item.size);
+              stockReal[`${item.id}-${item.size}`] = v ? v.stock : 0;
+            } else {
+              stockReal[item.id] = variantes.reduce((sum, v) => sum + (v.stock || 0), 0);
+            }
+          });
+        });
       }
     } catch (e) { console.error("Error validando stock:", e); }
   }
 
   cart.forEach(item=>{
-    const realAvailable = stockReal[item.id] !== undefined ? stockReal[item.id] : (item.stock || 0);
+    const stockKey = (item.size && item.size !== 'N/A') ? `${item.id}-${item.size}` : item.id;
+    const realAvailable = stockReal[stockKey] !== undefined ? stockReal[stockKey] : (item.stock || 0);
     
     // Si la cantidad en carrito supera el stock real, ajustarla automáticamente
     if (item.qty > realAvailable) {
