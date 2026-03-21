@@ -67,7 +67,7 @@ async function cargarProductos() {
     try {
         const { data, error } = await supabaseClient
             .from('productos')
-            .select('*, producto_variantes(*)')
+            .select('*, variantes:producto_variantes(*)')
             .order('fecha_creacion', { ascending: false });
 
         if (error) {
@@ -77,8 +77,7 @@ async function cargarProductos() {
         }
 
         const productosProcesados = (data || []).map(p => {
-            const variantes = p.producto_variantes || [];
-            p.variantes = variantes;
+            const variantes = p.variantes || [];
             p.stock = variantes.reduce((sum, v) => sum + (v.stock || 0), 0);
             p.talla = [...new Set(variantes.filter(v => v.stock > 0 && v.talla).map(v => v.talla))].join(', ');
             p.color = [...new Set(variantes.filter(v => v.stock > 0 && v.color).map(v => v.color))].join(', ');

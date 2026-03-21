@@ -24,12 +24,12 @@ async function renderCart(){
       const ids = [...new Set(cart.map(item => item.id))];
       const { data, error } = await supabaseClient
         .from('productos')
-        .select('id, producto_variantes(stock, talla)')
+        .select('id, variantes:producto_variantes(stock, talla)')
         .in('id', ids);
       
       if (!error && data) {
         data.forEach(p => {
-          const variantes = p.producto_variantes || [];
+          const variantes = p.variantes || [];
           cart.filter(item => item.id === p.id).forEach(item => {
             if (item.size && item.size !== 'N/A') {
               const v = variantes.find(va => va.talla === item.size);
