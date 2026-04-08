@@ -120,14 +120,10 @@ const nombresCategorias = {
     'POLO': 'Polo',
     'CINTURÓN': 'Cinturón',
     'RELOJ': 'Reloj',
-    'CORBATA': 'Corbata',
-    'ZAPATOS': 'Zapatos',
     'SNKRS': 'Sneakers',
     'ACCESORIOS': 'Accesorios',
     'GORRAS': 'Gorras',
-    'LLAVEROS': 'Llaveros',
     'LENTES': 'Lentes',
-    'GUANTES': 'Guantes',
     'MOCHILA': 'Mochila',
     'MALETA': 'Maleta',
     'BANDOLERAS': 'Bandoleras',
@@ -156,8 +152,8 @@ function mostrarProductos(productosFiltrados) {
     // NO incluir 'INVENTARIO TOTAL' ya que no debe mostrarse en la web
     const ordenCategorias = ['SUDADERAS', 'PLAYERAS', 'CAMISETAS', 'CALCETAS', 'PANS', 
                             'PANTALONES', 'PLAYERA MANGA LARGA', 'POLO', 'CINTURÓN', 
-                            'RELOJ', 'CORBATA', 'ZAPATOS', 'SNKRS', 'ACCESORIOS', 
-                            'GORRAS', 'LLAVEROS', 'LENTES', 'GUANTES', 'MOCHILA', 
+                            'RELOJ', 'SNKRS', 'ACCESORIOS', 
+                            'GORRAS', 'LENTES', 'MOCHILA', 
                             'MALETA', 'BANDOLERAS', 'PERFUMES', 'PELUCHES', 'OTROS'];
     
     let html = '';
