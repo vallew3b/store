@@ -116,6 +116,7 @@ const nombresCategorias = {
     'CALCETAS': 'Calcetas',
     'PANS': 'Pans',
     'PANTALONES': 'Pantalones',
+    'SHORTS': 'Shorts',
     'PLAYERA MANGA LARGA': 'Playera Manga Larga',
     'POLO': 'Polo',
     'CINTURÓN': 'Cinturón',
@@ -151,7 +152,7 @@ function mostrarProductos(productosFiltrados) {
     // Orden de las categorías (las que tienen productos primero)
     // NO incluir 'INVENTARIO TOTAL' ya que no debe mostrarse en la web
     const ordenCategorias = ['SUDADERAS', 'PLAYERAS', 'CAMISETAS', 'CALCETAS', 'PANS', 
-                            'PANTALONES', 'PLAYERA MANGA LARGA', 'POLO', 'CINTURÓN', 
+                            'PANTALONES', 'SHORTS', 'PLAYERA MANGA LARGA', 'POLO', 'CINTURÓN', 
                             'RELOJ', 'SNKRS', 'ACCESORIOS', 
                             'GORRAS', 'LENTES', 'MOCHILA', 
                             'MALETA', 'BANDOLERAS', 'PERFUMES', 'PELUCHES', 'OTROS'];
