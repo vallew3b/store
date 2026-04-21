@@ -81,6 +81,10 @@ async function cargarProductos() {
             if (p.categoria && p.categoria.toUpperCase() === 'SHORT') {
                 p.categoria = 'SHORTS';
             }
+            // Normalizar categoría CONJUNTO a CONJUNTOS
+            if (p.categoria && p.categoria.toUpperCase() === 'CONJUNTO') {
+                p.categoria = 'CONJUNTOS';
+            }
             const variantes = p.variantes || [];
             p.stock = variantes.reduce((sum, v) => sum + (v.stock || 0), 0);
             p.talla = [...new Set(variantes.filter(v => v.stock > 0 && v.talla).map(v => v.talla))].join(', ');
