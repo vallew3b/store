@@ -77,6 +77,10 @@ async function cargarProductos() {
         }
 
         const productosProcesados = (data || []).map(p => {
+            // Normalizar categoría SHORT a SHORTS para que los filtros coincidan
+            if (p.categoria && p.categoria.toUpperCase() === 'SHORT') {
+                p.categoria = 'SHORTS';
+            }
             const variantes = p.variantes || [];
             p.stock = variantes.reduce((sum, v) => sum + (v.stock || 0), 0);
             p.talla = [...new Set(variantes.filter(v => v.stock > 0 && v.talla).map(v => v.talla))].join(', ');
