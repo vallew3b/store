@@ -256,10 +256,11 @@ function crearCardProducto(producto) {
 
     return `
         <div class="producto-card" data-categoria="${categoria}" style="position: relative; overflow: hidden; background: #111; border-radius: 10px; border: 1px solid #222;">
-            <div class="producto-imagen-container">
-                <img src="${imagenUrl}" alt="${producto.nombre}" class="producto-imagen" 
-                     onerror="this.src='https://via.placeholder.com/300x300?text=Sin+Imagen'"
-                     style="width: 100%; height: 220px; object-fit: cover;">
+            <div class="producto-imagen-container" style="background: #222 url('https://i.gifer.com/ZZ5H.gif') center center no-repeat; background-size: 30px;">
+                <img src="${imagenUrl}" alt="${producto.nombre}" class="producto-imagen" loading="lazy"
+                     onload="this.style.opacity=1"
+                     onerror="this.src='https://via.placeholder.com/300x300?text=Sin+Imagen'; this.style.opacity=1"
+                     style="width: 100%; height: 220px; object-fit: cover; opacity: 0; transition: opacity 0.5s ease;">
             </div>
             <div class="producto-info" style="padding: 15px;">
                 <div style="display: flex; justify-content: space-between; align-items: flex-start;">
