@@ -86,11 +86,7 @@ async function cargarProductos() {
                 p.categoria = 'CONJUNTOS';
             }
             const variantes = p.variantes || [];
-            if (variantes.length > 0) {
-                p.stock = variantes.reduce((sum, v) => sum + (v.stock || 0), 0);
-            } else {
-                p.stock = parseFloat(p.stock) || 0;
-            }
+            p.stock = variantes.reduce((sum, v) => sum + (v.stock || 0), 0);
             p.talla = [...new Set(variantes.filter(v => v.stock > 0 && v.talla).map(v => v.talla))].join(', ');
             p.color = [...new Set(variantes.filter(v => v.stock > 0 && v.color).map(v => v.color))].join(', ');
             return p;
